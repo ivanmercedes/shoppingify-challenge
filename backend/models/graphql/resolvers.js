@@ -29,8 +29,14 @@ const resolvers = {
     },
 
     addProduct: async (root, args) => {
-      const product = new Product(args);
-      await product.save();
+      const productExists = await Product.findOne({ name: args.name });
+      if (productExists) {
+        throw new UserInputError("Product already exists", {
+          invalidArgs: args.name,
+        });
+      }
+      let product = await Product.create(args);
+      product = await product.populate("category", "name");
       return product;
     },
   },
