@@ -1,3 +1,5 @@
+const { UserInputError } = require("apollo-server");
+
 const Category = require("../Category");
 const Product = require("../Product");
 
@@ -9,6 +11,21 @@ const resolvers = {
     },
     allCategory: async (root, args) => {
       const category = await Category.find().lean();
+      return category;
+    },
+  },
+
+  Mutation: {
+    addCategory: async (root, args) => {
+      const categoryExists = await Category.findOne(args);
+      console.log(categoryExists);
+      if (categoryExists)
+        throw new UserInputError("Category already exists", {
+          invalidArgs: args.name,
+        });
+
+      const category = new Category(args);
+      category.save();
       return category;
     },
   },

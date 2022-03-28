@@ -10,12 +10,17 @@ const typeDefs = gql`
   }
 
   type Category {
+    _id: ID!
     name: String!
   }
 
   type Query {
     allProducts: [Product]!
     allCategory: [Category]!
+  }
+
+  type Mutation {
+    addCategory(name: String!): Category
   }
 `;
 
