@@ -6,6 +6,13 @@ const CategorySchema = Schema({
     required: [true, "Name is required"],
     unique: true,
   },
+
+  products: [
+    {
+      type: Schema.Types.ObjectId,
+      ref: "Product",
+    },
+  ],
 });
 
 CategorySchema.methods.toJSON = function () {
