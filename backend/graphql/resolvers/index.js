@@ -1,5 +1,6 @@
 const { categoryMutations, categoryQueries } = require("./category");
 const { productMutations, productQueries } = require("./product");
+const { listMutations, listQueries } = require("./list");
 
 const Product = require("../../models/Product");
 
@@ -7,11 +8,13 @@ const resolvers = {
   Query: {
     ...productQueries,
     ...categoryQueries,
+    ...listQueries,
   },
 
   Mutation: {
     ...categoryMutations,
     ...productMutations,
+    ...listMutations,
   },
 
   Product: {
