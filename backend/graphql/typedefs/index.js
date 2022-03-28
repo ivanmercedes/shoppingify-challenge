@@ -15,9 +15,19 @@ const typeDefs = gql`
     image: String!
   }
 
+  type List {
+    _id: ID!
+    name: String!
+    status: Boolean
+    products: [Product]!
+    createdAt: String!
+    updatedAt: String!
+  }
+
   type Query {
     allProducts: [Product]!
     allCategory: [Category]!
+    allList: [List]!
   }
 
   type Mutation {
@@ -29,6 +39,7 @@ const typeDefs = gql`
     ): Product
 
     addCategory(name: String!): Category
+    addList(name: String!): List
   }
 `;
 
