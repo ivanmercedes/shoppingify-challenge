@@ -7,6 +7,7 @@ const resolvers = require("./graphql/resolvers");
 // MongoDB schema
 require("./Category");
 require("./Product");
+
 class Server {
   constructor() {
     console.clear();
