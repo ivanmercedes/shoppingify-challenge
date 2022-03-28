@@ -1,8 +1,8 @@
 const { ApolloServer } = require("apollo-server");
 const { dbConnection } = require("../database/config");
 
-const typeDefs = require("./graphql/typeDefinitions");
-const resolvers = require("./graphql/resolvers");
+const typeDefs = require("../graphql/typedefs");
+const resolvers = require("../graphql/resolvers");
 class Server {
   constructor() {
     // console.clear();
