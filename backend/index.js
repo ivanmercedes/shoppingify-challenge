@@ -1,32 +1,7 @@
-const { gql, ApolloServer } = require("apollo-server");
+require("dotenv").config();
 
-const typeDefs = gql`
-  type Product {
-    id: ID!
-    name: String!
-    category: String
-    description: String!
-    image: String!
-  }
+const Server = require("./models/server");
 
-  type Query {
-    allProducts: [Product]!
-  }
+const server = new Server();
 
-`;
-
-const resolvers = {
-	Query: {
-		allProducts: async (root, args) => {
-		},
-	},
-};
-
-const server = new ApolloServer({
-	typeDefs,
-	resolvers,
-});
-
-server.listen().then(({ url }) => {
-	console.log('Server ready at ' + url);
-});
+server.listen();
