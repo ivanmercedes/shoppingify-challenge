@@ -1,7 +1,7 @@
 const { categoryMutations, categoryQueries } = require("./category");
 const { productMutations, productQueries } = require("./product");
 
-const Product = require("../../Product");
+const Product = require("../../models/Product");
 
 const resolvers = {
   Query: {

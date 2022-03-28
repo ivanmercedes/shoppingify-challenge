@@ -1,4 +1,4 @@
-const Category = require("../../../Category");
+const Category = require("../../../models/Category");
 
 const categoryQueries = {
   allCategory: async (root, args, context, info) => {

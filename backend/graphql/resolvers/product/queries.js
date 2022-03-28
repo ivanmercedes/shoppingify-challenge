@@ -1,4 +1,4 @@
-const Product = require("../../../Product");
+const Product = require("../../../models/Product");
 
 const categoryQueries = {
   allProducts: async (root, args, context, info) => {
