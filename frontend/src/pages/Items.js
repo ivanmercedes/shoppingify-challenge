@@ -1,35 +1,56 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import Header from '../components/Header';
-import appContext from '../context/app/context';
+// import appContext from '../context/app/context';
 import Layout from '../layouts/Layout';
+import { useQuery, gql } from '@apollo/client';
+
+const FETCH_DATA = gql`
+	query fetchData {
+		allCategory {
+			name
+			_id
+			products {
+				name
+				image
+				description
+				_id
+			}
+		}
+	}
+`;
 
 const ItemsPage = () => {
-	const AppState = useContext(appContext);
-	const { allProducts } = AppState;
+	const { data, loading, error } = useQuery(FETCH_DATA);
 
-	if (!allProducts?.products) return null;
+	console.log({ loading });
+	console.log({ error });
+	console.log({ data });
 
-	const { products } = allProducts;
+	if (loading) {
+		return <div>loading</div>;
+	}
 
+	if (error) {
+		return <div>{error}</div>;
+	}
+
+	const { allCategory } = data;
+
+	console.log(allCategory);
 	return (
 		<Layout>
 			<Header />
-			{products.map(product => (
+			{allCategory.map(product => (
 				<div
-					key={`category-${product.id}`}
+					key={`category-${product._id}`}
 					className='flex flex-col sm:flex-row content-center flex-wrap mb-10 last-of-type:mb-0'
 				>
 					<div className='w-full'>
-						<h3
-							key={`caca-${product.id}`}
-							className='text-lg mb-3 font-medium px-2'
-						>
-							{product.name}
-						</h3>
+						<h3 className='text-lg mb-3 font-medium px-2'>{product.name}</h3>
 					</div>
-					{product.items.map(item => (
+					{product.products.map(item => (
 						<div
-							key={`product-${item.id}`}
+							key={`product-${item._id}`}
 							className='flex-none w-full md:w-1/5 px-2 my-2 relative group cursor-pointer'
 						>
 							<div className='flex flex-row justify-between px-4  py-3  bg-white rounded-xl shadow-sm'>
