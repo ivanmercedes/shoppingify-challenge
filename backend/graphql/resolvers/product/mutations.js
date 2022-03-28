@@ -1,4 +1,5 @@
 const { UserInputError } = require("apollo-server");
+const Product = require("../../../models/Product");
 
 const categoryMutations = {
   addProduct: async (root, args, context, info) => {

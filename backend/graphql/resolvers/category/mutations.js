@@ -1,4 +1,5 @@
 const { UserInputError } = require("apollo-server");
+const Category = require("../../../models/Category");
 
 const categoryMutations = {
   addCategory: async (root, args, context, info) => {
