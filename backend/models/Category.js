@@ -6,11 +6,6 @@ const CategorySchema = Schema({
     required: [true, "Name is required"],
     unique: true,
   },
-  status: {
-    type: Boolean,
-    default: true,
-    required: true,
-  },
 });
 
 CategorySchema.methods.toJSON = function () {
