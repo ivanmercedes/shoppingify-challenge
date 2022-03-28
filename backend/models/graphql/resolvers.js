@@ -6,7 +6,7 @@ const Product = require("../Product");
 const resolvers = {
   Query: {
     allProducts: async (root, args) => {
-      const products = await Product.find().lean();
+      const products = await Product.find().populate("category", "name").lean();
       return products;
     },
     allCategory: async (root, args) => {
@@ -18,15 +18,28 @@ const resolvers = {
   Mutation: {
     addCategory: async (root, args) => {
       const categoryExists = await Category.findOne(args);
-      console.log(categoryExists);
       if (categoryExists)
         throw new UserInputError("Category already exists", {
           invalidArgs: args.name,
         });
 
       const category = new Category(args);
-      category.save();
+      await category.save();
       return category;
+    },
+
+    addProduct: async (root, args) => {
+      const product = new Product(args);
+      await product.save();
+      return product;
+    },
+  },
+  Product: {
+    category: (root) => {
+      return {
+        name: root.category.name,
+        _id: root.category._id,
+      };
     },
   },
 };
