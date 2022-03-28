@@ -9,8 +9,13 @@ const typeDefs = gql`
     image: String!
   }
 
+  type Category {
+    name: String!
+  }
+
   type Query {
     allProducts: [Product]!
+    allCategory: [Category]!
   }
 `;
 
