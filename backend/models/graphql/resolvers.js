@@ -5,18 +5,18 @@ const Product = require("../Product");
 
 const resolvers = {
   Query: {
-    allProducts: async (root, args) => {
+    allProducts: async (root, args, context, info) => {
       const products = await Product.find().populate("category", "name").lean();
       return products;
     },
-    allCategory: async (root, args) => {
-      const category = await Category.find().lean();
+    allCategory: async (root, args, context, info) => {
+      const category = await Category.find().populate("products").lean();
       return category;
     },
   },
 
   Mutation: {
-    addCategory: async (root, args) => {
+    addCategory: async (root, args, context, info) => {
       const categoryExists = await Category.findOne(args);
       if (categoryExists)
         throw new UserInputError("Category already exists", {
@@ -28,7 +28,7 @@ const resolvers = {
       return category;
     },
 
-    addProduct: async (root, args) => {
+    addProduct: async (root, args, context, info) => {
       const productExists = await Product.findOne({ name: args.name });
       if (productExists) {
         throw new UserInputError("Product already exists", {
@@ -37,6 +37,11 @@ const resolvers = {
       }
       let product = await Product.create(args);
       product = await product.populate("category", "name");
+      await Category.findByIdAndUpdate(
+        args.category,
+        { $push: { products: product._id } },
+        { new: true, useFindAndModify: false },
+      );
       return product;
     },
   },
@@ -46,6 +51,16 @@ const resolvers = {
         name: root.category.name,
         _id: root.category._id,
       };
+    },
+  },
+
+  Category: {
+    products: async (root, args, context, info) => {
+      const products = await Product.find({ category: { $in: root._id } })
+        .populate("category")
+        .lean();
+
+      return products;
     },
   },
 };
