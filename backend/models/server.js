@@ -1,8 +1,12 @@
 const { ApolloServer } = require("apollo-server");
 const { dbConnection } = require("../database/config");
-const typeDefs = require("./graphql/typeDefs");
+
+const typeDefs = require("./graphql/typeDefinitions");
 const resolvers = require("./graphql/resolvers");
 
+// MongoDB schema
+require("./Category");
+require("./Product");
 class Server {
   constructor() {
     console.clear();
